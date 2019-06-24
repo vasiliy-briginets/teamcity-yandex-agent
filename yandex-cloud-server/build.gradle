@@ -1,0 +1,86 @@
+plugins {
+    id 'com.github.rodm.teamcity-server' version "1.1.1"
+    id 'com.google.protobuf' version "0.8.9"
+    id 'idea'
+}
+teamcity {
+    version = teamcityVersion
+
+    server {
+        descriptor = project.file('teamcity-plugin.xml')
+        tokens = [Version: project.version]
+    }
+}
+dependencies {
+    agent project(path: ':yandex-cloud-agent', configuration: 'plugin')
+    server project(':yandex-cloud-common')
+    server project(':yandex-cloud-server-base')
+    provided project(':yandex-cloud-server-base')
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_version"
+
+    compile 'com.fasterxml.jackson.core:jackson-core:2.9.7'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.7'
+
+    compile 'io.grpc:grpc-stub:1.19.0'
+    compile 'io.grpc:grpc-protobuf:1.19.0'
+    compile 'io.grpc:grpc-netty-shaded:1.19.0'
+    compile 'io.netty:netty-tcnative-boringssl-static:2.0.20.Final:linux-x86_64'
+    compile 'org.bouncycastle:bcprov-jdk15on:1.62'
+
+    compile 'com.google.protobuf:protobuf-java:3.0.0'
+    compile 'com.google.api.grpc:proto-google-common-protos:1.12.0'
+
+    compile 'io.jsonwebtoken:jjwt-api:0.10.5'
+    runtime 'io.jsonwebtoken:jjwt-impl:0.10.5',
+            'io.jsonwebtoken:jjwt-jackson:0.10.5'
+
+    provided "org.jetbrains.teamcity.internal:server:$teamcityVersion"
+    testCompile 'org.testng:testng:6.8'
+}
+
+serverPlugin.version = null
+serverPlugin.baseName = 'cloud-yandex'
+
+compileKotlin {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+
+sourceSets {
+    main {
+        proto {
+            srcDir 'ext/yandex-cloud-api/'
+            include 'yandex/**/*.proto'
+            exclude 'third_party/**/*.proto'
+        }
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.4.0'
+    }
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.19.0'
+        }
+    }
+    generateProtoTasks {
+        ofSourceSet('main')*.plugins {
+            grpc { }
+        }
+    }
+}
+
+
+idea {
+    module {
+    }
+}

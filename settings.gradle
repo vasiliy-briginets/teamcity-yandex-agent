@@ -1,0 +1,6 @@
+rootProject.name = 'teamcity-yandex-agent'
+
+include 'yandex-cloud-agent'
+include 'yandex-cloud-common'
+include 'yandex-cloud-server-base'
+include 'yandex-cloud-server'
