@@ -8,7 +8,7 @@ The plugin is compatible with TeamCity 10.0.x and greater.
 
 ## Installation
 
-You can [download the plugin](https://github.com/vasiliy-briginets/teamcity-yandex-agent/releases/) and install it as an [additional TeamCity plugin](https://confluence.jetbrains.com/display/TCDL/Installing+Additional+Plugins).
+You can [download the plugin](https://plugins.jetbrains.com/plugin/12619-yandex-cloud-agents) and install it as an [additional TeamCity plugin](https://confluence.jetbrains.com/display/TCDL/Installing+Additional+Plugins).
 
 ## Configuration
 
