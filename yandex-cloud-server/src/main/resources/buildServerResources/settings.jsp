@@ -168,6 +168,14 @@
             <tr>
                 <th class="noBorder"></th>
                 <td>
+                    <input type="checkbox" name="${cons.nat}" class="ignoreModified"
+                           data-bind="checked: image().nat"/>
+                    <label for="${cons.nat}">Allocate public IPv4 address (NAT)</label>
+                </td>
+            </tr>
+            <tr>
+                <th class="noBorder"></th>
+                <td>
                     <input type="checkbox" name="${cons.ipv6}" class="ignoreModified"
                            data-bind="checked: image().ipv6"/>
                     <label for="${cons.ipv6}">Allocate IPv6 address</label>

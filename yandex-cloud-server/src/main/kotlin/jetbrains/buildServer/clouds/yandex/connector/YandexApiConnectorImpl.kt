@@ -153,8 +153,12 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
                 .addNetworkInterfaceSpecs(NetworkInterfaceSpec.newBuilder()
                         .setSubnetId(details.subnet)
                         .setPrimaryV4AddressSpec(PrimaryAddressSpec.newBuilder()
-                                .setOneToOneNatSpec(OneToOneNatSpec.newBuilder()
-                                        .setIpVersion(IpVersion.IPV4)))
+                                .apply {
+                                    if (details.nat) {
+                                        setOneToOneNatSpec(OneToOneNatSpec.newBuilder()
+                                                .setIpVersion(IpVersion.IPV4))
+                                    }
+                                })
                         .apply {
                             if (details.ipv6) {
                                 setPrimaryV6AddressSpec(PrimaryAddressSpec.newBuilder())
