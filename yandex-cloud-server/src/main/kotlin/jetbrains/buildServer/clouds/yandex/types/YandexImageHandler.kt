@@ -22,10 +22,10 @@ class YandexImageHandler(private val connector: YandexApiConnector) : YandexHand
             }
         }
 
-        if (details.machineCores<=0) {
-            exceptions.add(CheckedCloudException("Number of cores should be positive value"))
+        if (details.machineCores >= 2) {
+            exceptions.add(CheckedCloudException("Number of cores should be positive value equal or greater 2"))
         }
-        if (details.machineMemory<=0) {
+        if (details.machineMemory <= 0) {
             exceptions.add(CheckedCloudException("Machine memory should be positive value"))
         }
 
@@ -37,5 +37,5 @@ class YandexImageHandler(private val connector: YandexApiConnector) : YandexHand
     }
 
     override suspend fun createInstance(instance: YandexCloudInstance, userData: CloudInstanceUserData) =
-        connector.createImageInstance(instance, userData)
+            connector.createImageInstance(instance, userData)
 }
