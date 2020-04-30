@@ -155,6 +155,11 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
                         .setPrimaryV4AddressSpec(PrimaryAddressSpec.newBuilder()
                                 .setOneToOneNatSpec(OneToOneNatSpec.newBuilder()
                                         .setIpVersion(IpVersion.IPV4)))
+                        .apply {
+                            if (details.ipv6) {
+                                setPrimaryV6AddressSpec(PrimaryAddressSpec.newBuilder())
+                            }
+                        }
                         .build())
                 .setSchedulingPolicy(SchedulingPolicy.newBuilder().setPreemptible(instance.image.imageDetails.preemptible))
                 .apply {

@@ -35,6 +35,8 @@ class YandexCloudImageDetails(
         val network: String?,
         @SerializedName(YandexConstants.SUBNET_ID)
         val subnet: String,
+        @SerializedName(YandexConstants.IPV6)
+        val ipv6: Boolean = false,
         @SerializedName(YandexConstants.MACHINE_CORES)
         val machineCores: Long,
         @SerializedName(YandexConstants.MACHINE_MEMORY)
