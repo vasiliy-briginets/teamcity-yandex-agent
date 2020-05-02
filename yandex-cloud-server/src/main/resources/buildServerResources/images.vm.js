@@ -71,6 +71,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
         zone: ko.observable().extend({required: true}),
         network: ko.observable().extend({required: true}),
         subnet: ko.observable().extend({required: true}),
+        ipv6: ko.observable(false),
         maxInstances: ko.observable(1).extend({required: true, min: 0}),
         preemptible: ko.observable(false),
         machineCores: ko.observable().extend({
@@ -177,6 +178,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
         var images = ko.utils.parseJson(data || "[]");
         images.forEach(function (image) {
             image.preemptible = getBoolean(image.preemptible);
+            image.ipv6 = getBoolean(image.ipv6);
             image.growingId = getBoolean(image.growingId);
         });
         self.images(images);
@@ -192,7 +194,8 @@ function YandexImagesViewModel($, ko, dialog, config) {
         var image = data || {
             maxInstances: 1,
             preemptible: false,
-            growingId: false
+            growingId: false,
+            ipv6: false
         };
 
         var sourceImage = image.sourceImage;
@@ -222,6 +225,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
         var subnet = image.subnet;
         changeSubnets(network, subnet);
         model.subnet(subnet);
+        model.ipv6(image.ipv6);
         model.machineCores(image.machineCores);
         model.machineMemory(image.machineMemory);
         model.diskType(diskType);
@@ -255,6 +259,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
             zone: model.zone(),
             network: model.network(),
             subnet: model.subnet(),
+            ipv6: model.ipv6(),
             maxInstances: model.maxInstances(),
             preemptible: model.preemptible(),
             'source-id': model.vmNamePrefix(),

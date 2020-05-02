@@ -165,8 +165,16 @@
                     <i class="icon-refresh icon-spin" data-bind="css: {invisible: !loadingResources()}"></i>
                 </td>
             </tr>
+            <tr>
+                <th class="noBorder"></th>
+                <td>
+                    <input type="checkbox" name="${cons.ipv6}" class="ignoreModified"
+                           data-bind="checked: image().ipv6"/>
+                    <label for="${cons.ipv6}">Allocate IPv6 address</label>
+                </td>
+            </tr>
             <tr class="advancedSetting">
-                <th>Service account:</th>
+                <th>Service Account:</th>
                 <td>
                     <a href="#" data-bind="click: function(data) { showServiceAccount(true) }, visible: !showServiceAccount()">Edit service account</a>
                     <input type="text" name="${cons.serviceAccount}" class="longField ignoreModified"

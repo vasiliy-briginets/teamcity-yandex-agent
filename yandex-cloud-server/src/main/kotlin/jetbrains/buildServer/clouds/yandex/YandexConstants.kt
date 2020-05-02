@@ -71,6 +71,9 @@ class YandexConstants {
     val serviceAccount: String
         get() = SERVICE_ACCOUNT
 
+    val ipv6: String
+        get() = IPV6
+
     companion object {
         const val API_ENDPOINT_URL = "api.cloud.yandex.net:443"
         const val ACCESS_KEY = Constants.SECURE_PROPERTY_PREFIX + "accessKey"
@@ -78,6 +81,7 @@ class YandexConstants {
         const val ZONE = "zone"
         const val NETWORK_ID = "network"
         const val SUBNET_ID = "subnet"
+        const val IPV6 = "ipv6"
         const val MAX_INSTANCES_COUNT = "maxInstances"
         const val MACHINE_CORES = "machineCores"
         const val MACHINE_MEMORY = "machineMemory"

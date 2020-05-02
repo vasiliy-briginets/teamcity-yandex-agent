@@ -40,12 +40,13 @@ class YandexInstance internal constructor(private val instance: InstanceOuterCla
     }
 
     override fun getStartDate(): Date? {
-        return Date(instance.createdAt.seconds*1000L + instance.createdAt.nanos / 1000_000L)
+        return Date(instance.createdAt.seconds * 1000L + instance.createdAt.nanos / 1000_000L)
     }
 
     override fun getIpAddress(): String? {
         val interfaces = instance.networkInterfacesList
         if (interfaces.isEmpty()) return null
+        if (interfaces[0].primaryV6Address.address.isNotEmpty()) return interfaces[0].primaryV6Address.address
         return interfaces[0].primaryV4Address.oneToOneNat.address
     }
 
