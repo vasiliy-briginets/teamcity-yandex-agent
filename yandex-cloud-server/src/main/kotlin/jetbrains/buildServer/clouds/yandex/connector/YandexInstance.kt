@@ -47,7 +47,8 @@ class YandexInstance internal constructor(private val instance: InstanceOuterCla
         val interfaces = instance.networkInterfacesList
         if (interfaces.isEmpty()) return null
         if (interfaces[0].primaryV6Address.address.isNotEmpty()) return interfaces[0].primaryV6Address.address
-        return interfaces[0].primaryV4Address.oneToOneNat.address
+        if (interfaces[0].primaryV4Address.hasOneToOneNat()) return interfaces[0].primaryV4Address.oneToOneNat.address
+        return interfaces[0].primaryV4Address.address
     }
 
     override fun getInstanceStatus(): InstanceStatus {
