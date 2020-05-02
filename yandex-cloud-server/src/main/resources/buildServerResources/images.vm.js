@@ -78,9 +78,9 @@ function YandexImagesViewModel($, ko, dialog, config) {
             validation: {
                 validator: function (value) {
                     var number = parseInt(value);
-                    return number > 0 && (number === 1 || (number % 2 === 0));
+                    return number > 1 && (number % 2 === 0);
                 },
-                message: "1 or an even number of vCPUs can be created"
+                message: "even number of vCPUs can be created"
             }
         }),
         machineMemory: ko.observable().extend({
