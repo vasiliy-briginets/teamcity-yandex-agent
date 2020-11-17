@@ -56,7 +56,9 @@ class YandexCloudImageDetails(
         @SerializedName(YandexConstants.GROWING_ID)
         val growingId: Boolean = false,
         @SerializedName(YandexConstants.SERVICE_ACCOUNT)
-        val serviceAccount: String?) : CloudImageDetails {
+        val serviceAccount: String?,
+        @SerializedName(YandexConstants.INSTANCE_FOLDER)
+        val instanceFolder: String?) : CloudImageDetails {
 
     override fun getSourceId(): String {
         return sourceId

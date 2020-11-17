@@ -57,7 +57,7 @@ class YandexCloudClientFactory(cloudRegistrar: CloudRegistrar,
                                  errors: Array<TypedCloudErrorInfo>): YandexCloudClient {
         val accessKey = getParameter(params, YandexConstants.ACCESS_KEY)
         val apiConnector = YandexApiConnectorImpl(accessKey)
-        apiConnector.loadFolderId()
+        apiConnector.loadSaFolderId()
         apiConnector.setServerId(mySettings.serverUUID)
         apiConnector.setProfileId(state.profileId)
 
@@ -98,7 +98,8 @@ class YandexCloudClientFactory(cloudRegistrar: CloudRegistrar,
                     it.getParameter(YandexConstants.METADATA),
                     (it.getParameter(YandexConstants.GROWING_ID)
                             ?: "").toBoolean(),
-                    it.getParameter(YandexConstants.SERVICE_ACCOUNT)
+                    it.getParameter(YandexConstants.SERVICE_ACCOUNT),
+                    it.getParameter(YandexConstants.INSTANCE_FOLDER)
             )
         }
     }

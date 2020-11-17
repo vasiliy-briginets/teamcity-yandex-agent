@@ -77,6 +77,9 @@ class YandexConstants {
     val nat: String
         get() = NAT
 
+    val instanceFolder: String
+        get() = INSTANCE_FOLDER
+
     companion object {
         const val API_ENDPOINT_URL = "api.cloud.yandex.net:443"
         const val ACCESS_KEY = Constants.SECURE_PROPERTY_PREFIX + "accessKey"
@@ -98,5 +101,6 @@ class YandexConstants {
         const val METADATA = "metadata"
         const val GROWING_ID = "growingId"
         const val SERVICE_ACCOUNT = "serviceAccount"
+        const val INSTANCE_FOLDER = "instanceFolder"
     }
 }

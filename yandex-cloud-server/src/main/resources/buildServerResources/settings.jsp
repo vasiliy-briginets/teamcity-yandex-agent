@@ -64,12 +64,10 @@
                dialogClass="YandexImageDialog" titleId="YandexImageDialogTitle">
         <table class="runnerFormTable">
             <tr>
-                <th><label for="${cons.sourceImage}">Image: <l:star/></label></th>
+                <th><label for="${cons.sourceImage}">Image ID: <l:star/></label></th>
                 <td>
-                    <select name="${cons.sourceImage}" class="longField ignoreModified"
-                            data-bind="options: sourceImages, optionsCaption: '<Select image>',
-                             optionsText: 'text', optionsValue: 'id', value: image().sourceImage"></select>
-                    <i class="icon-refresh icon-spin" data-bind="css: {invisible: !loadingResources()}"></i>
+                    <input type="text" name="${cons.sourceImage}" class="longField ignoreModified"
+                           data-bind="textInput: image().sourceImage"/>
                     <span class="error option-error" data-bind="validationMessage: image().sourceImage"></span>
                 </td>
             </tr>
@@ -83,14 +81,29 @@
                     <span class="error option-error" data-bind="validationMessage: image().zone"></span>
                 </td>
             </tr>
+            <tr class="advancedSetting">
+                <th>Instance folder:</th>
+                <td>
+                    <a href="#" data-bind="click: function(data) { showInstanceFolder(true) }, visible: !showInstanceFolder()">Edit instance folder</a>
+                    <input type="text" name="${cons.instanceFolder}" class="longField ignoreModified"
+                           data-bind="textInput: image().instanceFolder, visible: showInstanceFolder()"/>
+                    <span class="error option-error" data-bind="validationMessage: image().instanceFolder"></span>
+                    <span class="smallNote" data-bind="visible: showInstanceFolder()">
+                        Specify folder id where compute instance should be created. Your service account must have permissions to create instances in this folder.
+                            <bs:help
+                                    urlPrefix="https://cloud.yandex.ru/docs/iam/concepts/users/service-accounts"
+                                    file=""/>
+                    </span>
+                </td>
+            </tr>
             <tr>
                 <th><label for="${cons.vmNamePrefix}">Agent name prefix: <l:star/></label></th>
-                <td>
-                    <input type="text" name="${cons.vmNamePrefix}" class="longField ignoreModified"
-                           data-bind="textInput: image().vmNamePrefix"/>
-                    <span class="smallNote">It must be unique per cloud profile</span>
-                    <span class="error option-error" data-bind="validationMessage: image().vmNamePrefix"></span>
-                </td>
+                    <td>
+                        <input type="text" name="${cons.vmNamePrefix}" class="longField ignoreModified"
+                               data-bind="textInput: image().vmNamePrefix"/>
+                        <span class="smallNote">It must be unique per cloud profile</span>
+                        <span class="error option-error" data-bind="validationMessage: image().vmNamePrefix"></span>
+                    </td>
             </tr>
             <tr>
                 <th class="noBorder"></th>
@@ -147,22 +160,17 @@
             <tr>
                 <th><label for="${cons.network}">Network: <l:star/></label></th>
                 <td>
-                    <select name="${cons.network}" class="longField ignoreModified"
-                            data-bind="options: networks, optionsText: 'text', optionsValue: 'id',
-                             value: image().network, css: {hidden: networks().length == 0}"></select>
-                    <div class="longField inline-block" data-bind="css: {hidden: networks().length > 0}">
-                        <span class="error option-error">No networks found in folder</span>
-                    </div>
-                    <i class="icon-refresh icon-spin" data-bind="css: {invisible: !loadingResources()}"></i>
+                    <input type="text" name="${cons.network}" class="longField ignoreModified"
+                           data-bind="textInput: image().network"/>
+                    <span class="error option-error" data-bind="validationMessage: image().network"></span>
                 </td>
             </tr>
             <tr>
                 <th class="noBorder"><label for="${cons.subnet}">Sub network:</label></th>
                 <td>
-                    <select name="${cons.subnet}" class="longField ignoreModified"
-                            data-bind="options: subnets, optionsText: 'text', optionsValue: 'id',
-                             optionsCaption: '<Not specified>', value: image().subnet"></select>
-                    <i class="icon-refresh icon-spin" data-bind="css: {invisible: !loadingResources()}"></i>
+                    <input type="text" name="${cons.network}" class="longField ignoreModified"
+                           data-bind="textInput: image().subnet"/>
+                    <span class="error option-error" data-bind="validationMessage: image().subnet"></span>
                 </td>
             </tr>
             <tr>
