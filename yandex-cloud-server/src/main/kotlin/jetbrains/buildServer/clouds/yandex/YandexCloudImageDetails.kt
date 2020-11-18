@@ -31,8 +31,6 @@ class YandexCloudImageDetails(
         val sourceImage: String?,
         @SerializedName(YandexConstants.ZONE)
         val zone: String,
-        @SerializedName(YandexConstants.NETWORK_ID)
-        val network: String?,
         @SerializedName(YandexConstants.SUBNET_ID)
         val subnet: String,
         @SerializedName(YandexConstants.IPV6)

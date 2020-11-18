@@ -81,7 +81,6 @@ class YandexCloudClientFactory(cloudRegistrar: CloudRegistrar,
                     it.id!!,
                     it.getParameter(YandexConstants.SOURCE_IMAGE),
                     it.getParameter(YandexConstants.ZONE)!!,
-                    it.getParameter(YandexConstants.NETWORK_ID),
                     it.getParameter(YandexConstants.SUBNET_ID)!!,
                     (it.getParameter(YandexConstants.IPV6)
                             ?: "").toBoolean(),

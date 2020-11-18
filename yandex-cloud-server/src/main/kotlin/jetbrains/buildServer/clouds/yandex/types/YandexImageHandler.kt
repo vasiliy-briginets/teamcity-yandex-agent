@@ -29,10 +29,6 @@ class YandexImageHandler(private val connector: YandexApiConnector) : YandexHand
             exceptions.add(CheckedCloudException("Machine memory should be positive value"))
         }
 
-        if (details.network.isNullOrEmpty()) {
-            exceptions.add(CheckedCloudException("Network should not be empty"))
-        }
-
         exceptions
     }
 

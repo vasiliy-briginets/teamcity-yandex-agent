@@ -35,9 +35,6 @@ class YandexConstants {
     val maxInstancesCount: String
         get() = MAX_INSTANCES_COUNT
 
-    val network: String
-        get() = NETWORK_ID
-
     val subnet: String
         get() = SUBNET_ID
 
@@ -85,7 +82,6 @@ class YandexConstants {
         const val ACCESS_KEY = Constants.SECURE_PROPERTY_PREFIX + "accessKey"
         const val SOURCE_IMAGE = "sourceImage"
         const val ZONE = "zone"
-        const val NETWORK_ID = "network"
         const val SUBNET_ID = "subnet"
         const val IPV6 = "ipv6"
         const val NAT = "nat"

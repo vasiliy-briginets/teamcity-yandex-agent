@@ -158,17 +158,9 @@
                 </td>
             </tr>
             <tr>
-                <th><label for="${cons.network}">Network: <l:star/></label></th>
+                <th class="noBorder"><label for="${cons.subnet}">Subnet:</label><l:star/></th>
                 <td>
-                    <input type="text" name="${cons.network}" class="longField ignoreModified"
-                           data-bind="textInput: image().network"/>
-                    <span class="error option-error" data-bind="validationMessage: image().network"></span>
-                </td>
-            </tr>
-            <tr>
-                <th class="noBorder"><label for="${cons.subnet}">Sub network:</label></th>
-                <td>
-                    <input type="text" name="${cons.network}" class="longField ignoreModified"
+                    <input type="text" name="${cons.subnet}" class="longField ignoreModified"
                            data-bind="textInput: image().subnet"/>
                     <span class="error option-error" data-bind="validationMessage: image().subnet"></span>
                 </td>
