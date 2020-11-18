@@ -22,15 +22,11 @@ class YandexImageHandler(private val connector: YandexApiConnector) : YandexHand
             }
         }
 
-        if (details.machineCores >= 2) {
+        if (details.machineCores < 2) {
             exceptions.add(CheckedCloudException("Number of cores should be positive value equal or greater 2"))
         }
         if (details.machineMemory <= 0) {
             exceptions.add(CheckedCloudException("Machine memory should be positive value"))
-        }
-
-        if (details.network.isNullOrEmpty()) {
-            exceptions.add(CheckedCloudException("Network should not be empty"))
         }
 
         exceptions

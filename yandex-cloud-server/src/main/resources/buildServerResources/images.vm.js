@@ -22,6 +22,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
     self.showAccessKey = ko.observable(false);
     self.showMetadata = ko.observable(false);
     self.showServiceAccount = ko.observable(false);
+    self.showInstanceFolder = ko.observable(false);
     self.isDragOver = ko.observable(false);
     self.hasFileReader = ko.observable(typeof FileReader !== "undefined");
 
@@ -143,6 +144,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
         }),
         growingId: ko.observable(false),
         serviceAccount: ko.observable(),
+        instanceFolder: ko.observable(),
         agentPoolId: ko.observable().extend({required: true}),
         profileId: ko.observable()
     });
@@ -239,11 +241,13 @@ function YandexImagesViewModel($, ko, dialog, config) {
         model.metadata(image.metadata);
         model.growingId(image.growingId);
         model.serviceAccount(image.serviceAccount);
+        model.instanceFolder(image.instanceFolder);
         model.agentPoolId(image.agent_pool_id);
         model.profileId(image.profileId);
 
         self.showMetadata(false);
         self.showServiceAccount(!!image.serviceAccount);
+        self.showInstanceFolder(!!image.instanceFolder);
 
         self.image.errors.showAllMessages(false);
         dialog.showDialog(!self.originalImage);
@@ -274,6 +278,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
             metadata: model.metadata(),
             growingId: model.growingId(),
             serviceAccount: model.serviceAccount(),
+            instanceFolder: model.instanceFolder(),
             agent_pool_id: model.agentPoolId(),
             profileId: model.profileId()
         };

@@ -34,7 +34,7 @@ internal abstract class YandexResourceHandler : ResourceHandler {
         val props = propsBean.properties
         val accessKey = props[YandexConstants.ACCESS_KEY]!!
         val apiConnector = YandexApiConnectorImpl(accessKey)
-        apiConnector.loadFolderId()
+        apiConnector.loadSaFolderId()
         return handle(apiConnector, parameters)
     }
 

@@ -35,9 +35,6 @@ class YandexConstants {
     val maxInstancesCount: String
         get() = MAX_INSTANCES_COUNT
 
-    val network: String
-        get() = NETWORK_ID
-
     val subnet: String
         get() = SUBNET_ID
 
@@ -77,12 +74,14 @@ class YandexConstants {
     val nat: String
         get() = NAT
 
+    val instanceFolder: String
+        get() = INSTANCE_FOLDER
+
     companion object {
         const val API_ENDPOINT_URL = "api.cloud.yandex.net:443"
         const val ACCESS_KEY = Constants.SECURE_PROPERTY_PREFIX + "accessKey"
         const val SOURCE_IMAGE = "sourceImage"
         const val ZONE = "zone"
-        const val NETWORK_ID = "network"
         const val SUBNET_ID = "subnet"
         const val IPV6 = "ipv6"
         const val NAT = "nat"
@@ -98,5 +97,6 @@ class YandexConstants {
         const val METADATA = "metadata"
         const val GROWING_ID = "growingId"
         const val SERVICE_ACCOUNT = "serviceAccount"
+        const val INSTANCE_FOLDER = "instanceFolder"
     }
 }
