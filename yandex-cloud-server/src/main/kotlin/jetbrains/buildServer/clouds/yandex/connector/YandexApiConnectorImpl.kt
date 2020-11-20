@@ -209,8 +209,10 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
     }
 
     private fun getInstanceId(instance: YandexCloudInstance): String {
+        val details = instance.image.imageDetails
+        val instanceFolder = if (details.instanceFolder.isNullOrEmpty()) saFolderId else details.instanceFolder
         val response = instanceService.list(ListInstancesRequest.newBuilder()
-                .setFolderId(instance.image.imageDetails.instanceFolder)
+                .setFolderId(instanceFolder)
                 .build())
                 .get()
         return response.instancesList
