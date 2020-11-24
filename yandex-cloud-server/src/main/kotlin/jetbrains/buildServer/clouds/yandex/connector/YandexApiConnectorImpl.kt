@@ -171,14 +171,17 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
                 }
                 .build()
 
-        instanceService.create(request)
-                .await()
+        val resp = instanceService.create(request)
+        resp.await()
+        val meta = resp.get().metadata.unpack(CreateInstanceMetadata::class.java)
+        instance.computeId = meta.instanceId
+
         Unit
     }
 
     override suspend fun startVm(instance: YandexCloudInstance) = coroutineScope {
         instanceService.start(StartInstanceRequest.newBuilder()
-                .setInstanceId(getInstanceId(instance))
+                .setInstanceId(instance.computeId)
                 .build())
                 .await()
         Unit
@@ -186,7 +189,7 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
 
     override suspend fun restartVm(instance: YandexCloudInstance) = coroutineScope {
         instanceService.restart(RestartInstanceRequest.newBuilder()
-                .setInstanceId(getInstanceId(instance))
+                .setInstanceId(instance.computeId)
                 .build())
                 .await()
         Unit
@@ -194,7 +197,7 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
 
     override suspend fun stopVm(instance: YandexCloudInstance) = coroutineScope {
         instanceService.stop(StopInstanceRequest.newBuilder()
-                .setInstanceId(getInstanceId(instance))
+                .setInstanceId(instance.computeId)
                 .build())
                 .await()
         Unit
@@ -202,22 +205,10 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
 
     override suspend fun deleteVm(instance: YandexCloudInstance) = coroutineScope {
         instanceService.delete(DeleteInstanceRequest.newBuilder()
-                .setInstanceId(getInstanceId(instance))
+                .setInstanceId(instance.computeId)
                 .build())
                 .await()
         Unit
-    }
-
-    private fun getInstanceId(instance: YandexCloudInstance): String {
-        val details = instance.image.imageDetails
-        val instanceFolder = if (details.instanceFolder.isNullOrEmpty()) saFolderId else details.instanceFolder
-        val response = instanceService.list(ListInstancesRequest.newBuilder()
-                .setFolderId(instanceFolder)
-                .build())
-                .get()
-        return response.instancesList
-                .first { it.name == instance.id }
-                .id
     }
 
     override fun checkImage(image: YandexCloudImage) = runBlocking {

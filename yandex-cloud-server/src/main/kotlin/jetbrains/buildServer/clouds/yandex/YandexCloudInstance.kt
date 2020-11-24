@@ -26,6 +26,7 @@ class YandexCloudInstance internal constructor(image: YandexCloudImage, var id: 
     : AbstractCloudInstance<YandexCloudImage>(image, id, id) {
 
     var properties: MutableMap<String, String> = HashMap()
+    var computeId: String = ""
 
     override fun containsAgent(agent: AgentDescription): Boolean {
         val agentInstanceName = agent.configurationParameters[YandexAgentProperties.INSTANCE_NAME]
