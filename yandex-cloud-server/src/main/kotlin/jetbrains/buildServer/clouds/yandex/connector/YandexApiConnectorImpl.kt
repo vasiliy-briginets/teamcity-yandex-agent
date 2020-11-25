@@ -238,30 +238,6 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
                 .associate { it.first to it.second }
     }
 
-    override suspend fun getNetworks() = coroutineScope {
-        val networks = networkService.list(ListNetworksRequest.newBuilder()
-                .setFolderId(saFolderId)
-                .build())
-                .await()
-
-        networks.networksList
-                .map { it.id to it.name }
-                .sortedWith(compareBy(comparator) { it.second })
-                .associate { it.first to it.second }
-    }
-
-    override suspend fun getSubnets() = coroutineScope {
-        val subnets = subnetService.list(ListSubnetsRequest.newBuilder()
-                .setFolderId(saFolderId)
-                .build())
-                .await()
-
-        subnets.subnetsList
-                .map { it.id to listOf(it.name, it.networkId) }
-                .sortedWith(compareBy(comparator) { it.second.first() })
-                .associate { it.first to it.second }
-    }
-
     override suspend fun getDiskTypes() = coroutineScope {
         val diskTypes = diskTypeService.list(DiskTypeServiceOuterClass.ListDiskTypesRequest.getDefaultInstance())
                 .await()

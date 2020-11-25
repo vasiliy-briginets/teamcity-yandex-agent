@@ -39,9 +39,5 @@ interface YandexApiConnector : CloudApiConnector<YandexCloudImage, YandexCloudIn
 
     suspend fun getZones(): Map<String, List<String>>
 
-    suspend fun getNetworks(): Map<String, String>
-
-    suspend fun getSubnets(): Map<String, List<String>>
-
     suspend fun getDiskTypes(): Map<String, String>
 }

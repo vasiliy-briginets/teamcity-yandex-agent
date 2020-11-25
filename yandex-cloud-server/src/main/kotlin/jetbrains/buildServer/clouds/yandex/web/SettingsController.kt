@@ -49,10 +49,7 @@ class SettingsController(server: SBuildServer,
         manager.registerController(myHtmlPath, this)
         myHandlers["agentPools"] = AgentPoolHandler(agentPoolManager)
         myHandlers["zones"] = ZonesHandler()
-        myHandlers["networks"] = NetworksHandler()
-        myHandlers["subnets"] = SubnetsHandler()
         myHandlers["diskTypes"] = DiskTypesHandler()
-        myHandlers["images"] = ImagesHandler()
         myHandlers["permissions"] = PermissionsHandler()
     }
 
