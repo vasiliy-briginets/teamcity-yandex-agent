@@ -53,8 +53,11 @@ DisposableHandle, CoroutineScope {
 
     override fun createInstanceFromReal(realInstance: AbstractInstance): YandexCloudInstance {
         val zone = realInstance.properties[YandexConstants.ZONE]!!
+        val instanceId = realInstance.properties[YandexConstants.COMPUTE_ID]!!
+        LOG.debug("Setting computeID from instance properties: $instanceId")
         return YandexCloudInstance(this, realInstance.name, zone).apply {
             properties = realInstance.properties
+            computeId = instanceId
         }
     }
 

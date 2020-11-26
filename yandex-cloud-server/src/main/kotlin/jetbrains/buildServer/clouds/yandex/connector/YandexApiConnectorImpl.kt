@@ -256,16 +256,13 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
     override fun <R : AbstractInstance?> fetchInstances(images: MutableCollection<YandexCloudImage>)
             : MutableMap<YandexCloudImage, MutableMap<String, R>> {
 
-        val instanceFolders = mutableSetOf(saFolderId!!)
+        val result = hashMapOf<YandexCloudImage, MutableMap<String, R>>()
         for (image in images) {
-            if (!image.imageDetails.instanceFolder.isNullOrEmpty()) {
-                instanceFolders.add(image.imageDetails.instanceFolder!!)
-            }
-        }
+            val instanceFolder = if (image.imageDetails.instanceFolder.isNullOrEmpty()) saFolderId!! else
+                image.imageDetails.instanceFolder
 
-        val actualInstances = mutableMapOf<String, MutableList<Instance>>()
-        for (folderId in instanceFolders) {
-            instanceService.list(ListInstancesRequest.newBuilder().setFolderId(folderId).build()).get().instancesList
+            val actualInstances = mutableMapOf<String, MutableList<Instance>>()
+            instanceService.list(ListInstancesRequest.newBuilder().setFolderId(instanceFolder).build()).get().instancesList
                     .forEach {
                         val instance = instanceService.get(GetInstanceRequest.newBuilder()
                                 .setInstanceId(it.id)
@@ -281,10 +278,7 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
                             list.add(instance)
                         }
                     }
-        }
 
-        val result = hashMapOf<YandexCloudImage, MutableMap<String, R>>()
-        for (image in images) {
             val instances = hashMapOf<String, R>()
             actualInstances[image.imageDetails.sourceId]?.let { foundInstances ->
                 foundInstances.forEach {
