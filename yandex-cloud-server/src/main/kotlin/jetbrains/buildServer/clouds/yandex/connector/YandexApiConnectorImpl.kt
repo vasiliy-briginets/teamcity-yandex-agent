@@ -171,14 +171,17 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
                 }
                 .build()
 
-        instanceService.create(request)
-                .await()
+        val resp = instanceService.create(request)
+        resp.await()
+        val meta = resp.get().metadata.unpack(CreateInstanceMetadata::class.java)
+        instance.computeId = meta.instanceId
+
         Unit
     }
 
     override suspend fun startVm(instance: YandexCloudInstance) = coroutineScope {
         instanceService.start(StartInstanceRequest.newBuilder()
-                .setInstanceId(getInstanceId(instance))
+                .setInstanceId(instance.computeId)
                 .build())
                 .await()
         Unit
@@ -186,7 +189,7 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
 
     override suspend fun restartVm(instance: YandexCloudInstance) = coroutineScope {
         instanceService.restart(RestartInstanceRequest.newBuilder()
-                .setInstanceId(getInstanceId(instance))
+                .setInstanceId(instance.computeId)
                 .build())
                 .await()
         Unit
@@ -194,7 +197,7 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
 
     override suspend fun stopVm(instance: YandexCloudInstance) = coroutineScope {
         instanceService.stop(StopInstanceRequest.newBuilder()
-                .setInstanceId(getInstanceId(instance))
+                .setInstanceId(instance.computeId)
                 .build())
                 .await()
         Unit
@@ -202,22 +205,10 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
 
     override suspend fun deleteVm(instance: YandexCloudInstance) = coroutineScope {
         instanceService.delete(DeleteInstanceRequest.newBuilder()
-                .setInstanceId(getInstanceId(instance))
+                .setInstanceId(instance.computeId)
                 .build())
                 .await()
         Unit
-    }
-
-    private fun getInstanceId(instance: YandexCloudInstance): String {
-        val details = instance.image.imageDetails
-        val instanceFolder = if (details.instanceFolder.isNullOrEmpty()) saFolderId else details.instanceFolder
-        val response = instanceService.list(ListInstancesRequest.newBuilder()
-                .setFolderId(instanceFolder)
-                .build())
-                .get()
-        return response.instancesList
-                .first { it.name == instance.id }
-                .id
     }
 
     override fun checkImage(image: YandexCloudImage) = runBlocking {
@@ -247,30 +238,6 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
                 .associate { it.first to it.second }
     }
 
-    override suspend fun getNetworks() = coroutineScope {
-        val networks = networkService.list(ListNetworksRequest.newBuilder()
-                .setFolderId(saFolderId)
-                .build())
-                .await()
-
-        networks.networksList
-                .map { it.id to it.name }
-                .sortedWith(compareBy(comparator) { it.second })
-                .associate { it.first to it.second }
-    }
-
-    override suspend fun getSubnets() = coroutineScope {
-        val subnets = subnetService.list(ListSubnetsRequest.newBuilder()
-                .setFolderId(saFolderId)
-                .build())
-                .await()
-
-        subnets.subnetsList
-                .map { it.id to listOf(it.name, it.networkId) }
-                .sortedWith(compareBy(comparator) { it.second.first() })
-                .associate { it.first to it.second }
-    }
-
     override suspend fun getDiskTypes() = coroutineScope {
         val diskTypes = diskTypeService.list(DiskTypeServiceOuterClass.ListDiskTypesRequest.getDefaultInstance())
                 .await()
@@ -289,16 +256,13 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
     override fun <R : AbstractInstance?> fetchInstances(images: MutableCollection<YandexCloudImage>)
             : MutableMap<YandexCloudImage, MutableMap<String, R>> {
 
-        val instanceFolders = mutableSetOf(saFolderId!!)
+        val result = hashMapOf<YandexCloudImage, MutableMap<String, R>>()
         for (image in images) {
-            if (!image.imageDetails.instanceFolder.isNullOrEmpty()) {
-                instanceFolders.add(image.imageDetails.instanceFolder!!)
-            }
-        }
+            val instanceFolder = if (image.imageDetails.instanceFolder.isNullOrEmpty()) saFolderId!! else
+                image.imageDetails.instanceFolder
 
-        val actualInstances = mutableMapOf<String, MutableList<Instance>>()
-        for (folderId in instanceFolders) {
-            instanceService.list(ListInstancesRequest.newBuilder().setFolderId(folderId).build()).get().instancesList
+            val actualInstances = mutableMapOf<String, MutableList<Instance>>()
+            instanceService.list(ListInstancesRequest.newBuilder().setFolderId(instanceFolder).build()).get().instancesList
                     .forEach {
                         val instance = instanceService.get(GetInstanceRequest.newBuilder()
                                 .setInstanceId(it.id)
@@ -314,10 +278,7 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
                             list.add(instance)
                         }
                     }
-        }
 
-        val result = hashMapOf<YandexCloudImage, MutableMap<String, R>>()
-        for (image in images) {
             val instances = hashMapOf<String, R>()
             actualInstances[image.imageDetails.sourceId]?.let { foundInstances ->
                 foundInstances.forEach {

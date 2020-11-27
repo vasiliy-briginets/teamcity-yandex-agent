@@ -33,6 +33,7 @@ class YandexInstance internal constructor(private val instance: InstanceOuterCla
     init {
         properties = instance.metadataMap.toMutableMap()
         properties[YandexConstants.ZONE] = zone
+        properties[YandexConstants.COMPUTE_ID] = instance.id
     }
 
     override fun getName(): String {
