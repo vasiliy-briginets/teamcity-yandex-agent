@@ -49,6 +49,8 @@ class YandexCloudImageDetails(
         val preemptible: Boolean = false,
         @SerializedName(YandexConstants.DISK_TYPE)
         val diskType: String?,
+        @SerializedName(YandexConstants.DISK_SIZE)
+        val diskSize: Long,
         @SerializedName(YandexConstants.METADATA)
         val metadata: String?,
         @SerializedName(YandexConstants.GROWING_ID)

@@ -148,6 +148,14 @@
                     </label>
                 </td>
             </tr>
+            <tr>
+                <th class="noBorder">Disk size (GB): <l:star/></th>
+                <td>
+                    <input type="text" name="${cons.diskSize}" class="longField ignoreModified"
+                           data-bind="textInput: image().diskSize"/>
+                    <span class="error option-error" data-bind="validationMessage: image().diskSize"></span>
+                </td>
+            </tr>
             <tr class="advancedSetting">
                 <th><label for="${cons.diskType}">Disk type:</label></th>
                 <td>

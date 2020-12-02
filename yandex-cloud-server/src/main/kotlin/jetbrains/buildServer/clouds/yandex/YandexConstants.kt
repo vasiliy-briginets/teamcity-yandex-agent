@@ -47,6 +47,9 @@ class YandexConstants {
     val diskType: String
         get() = DISK_TYPE
 
+    val diskSize: String
+        get() = DISK_SIZE
+
     val vmNamePrefix: String
         get() = CloudImageParameters.SOURCE_ID_FIELD
 
@@ -92,6 +95,7 @@ class YandexConstants {
         const val MACHINE_CORES = "machineCores"
         const val MACHINE_MEMORY = "machineMemory"
         const val DISK_TYPE = "diskType"
+        const val DISK_SIZE = "diskSize"
         const val TAG_SERVER = "teamcity-server"
         const val TAG_DATA = "teamcity-data"
         const val TAG_PROFILE = "teamcity-profile"
