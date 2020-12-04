@@ -148,6 +148,15 @@
                     </label>
                 </td>
             </tr>
+            <tr>
+                <th class="noBorder">Disk size (GB):</th>
+                <td>
+                    <input type="text" name="${cons.diskSize}" class="longField ignoreModified"
+                           data-bind="textInput: image().diskSize"/>
+                    <span class="smallNote">Must be greater than compute image size. Leave blank to not change the size.</span>
+                    <span class="error option-error" data-bind="validationMessage: image().diskSize"></span>
+                </td>
+            </tr>
             <tr class="advancedSetting">
                 <th><label for="${cons.diskType}">Disk type:</label></th>
                 <td>
@@ -237,6 +246,9 @@
                 <tr>
                     <th class="name">Agent name prefix</th>
                     <th class="name">Cloud image</th>
+                    <th class="name center" title="CPU cores">CPU</th>
+                    <th class="name center" title="RAM">RAM</th>
+                    <th class="name center" title="Disk">Disk</th>
                     <th class="name center" title="Maximum number of instances">Limit</th>
                     <th class="name center" colspan="2">Actions</th>
                 </tr>
@@ -245,6 +257,9 @@
                 <tr>
                     <td class="nowrap" data-bind="text: $data['source-id']"></td>
                     <td class="nowrap" data-bind="text: sourceImage.slice(-80), attr: {title: sourceImage}"></td>
+                    <td class="nowrap" data-bind="text: machineCores, attr: {title: machineCores}"></td>
+                    <td class="nowrap" data-bind="text: machineMemory, attr: {title: machineMemory}"></td>
+                    <td class="nowrap" data-bind="text: diskSize, attr: {title: diskSize}"></td>
                     <td class="center edit" data-bind="text: maxInstances"></td>
                     <td class="edit">
                         <a href="#" data-bind="click: $parent.showDialog,

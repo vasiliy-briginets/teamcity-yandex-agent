@@ -94,6 +94,7 @@ class YandexCloudClientFactory(cloudRegistrar: CloudRegistrar,
                     (it.getParameter(YandexConstants.PREEMPTIBLE)
                             ?: "").toBoolean(),
                     it.getParameter(YandexConstants.DISK_TYPE),
+                    it.getParameter(YandexConstants.DISK_SIZE).let { if (it.isNullOrEmpty()) 0 else it.toLong()*1024*1024*1024 },
                     it.getParameter(YandexConstants.METADATA),
                     (it.getParameter(YandexConstants.GROWING_ID)
                             ?: "").toBoolean(),

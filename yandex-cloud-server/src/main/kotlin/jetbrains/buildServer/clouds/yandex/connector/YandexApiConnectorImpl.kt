@@ -140,7 +140,7 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
                         .setMode(AttachedDiskSpec.Mode.READ_WRITE)
                         .setDiskSpec(AttachedDiskSpec.DiskSpec.newBuilder()
                                 .setImageId(image.id)
-                                .setSize(image.minDiskSize)
+                                .setSize(if (details.diskSize > 0) details.diskSize else image.minDiskSize)
                                 .apply {
                                     if (!details.diskType.isNullOrBlank()) {
                                         typeId = details.diskType

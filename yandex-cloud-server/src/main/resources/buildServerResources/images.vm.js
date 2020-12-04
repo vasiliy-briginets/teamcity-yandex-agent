@@ -94,6 +94,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
             }
         }),
         diskType: ko.observable(),
+        diskSize: ko.observable(),
         vmNamePrefix: ko.observable('').trimmed().extend({required: true, maxLength: maxLength}).extend({
             validation: {
                 validator: function (value) {
@@ -235,6 +236,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
         model.machineCores(image.machineCores);
         model.machineMemory(image.machineMemory);
         model.diskType(diskType);
+        model.diskSize(image.diskSize);
         model.maxInstances(image.maxInstances);
         model.preemptible(image.preemptible);
         model.vmNamePrefix(image['source-id']);
@@ -275,6 +277,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
             machineCores: model.machineCores(),
             machineMemory: model.machineMemory(),
             diskType: model.diskType(),
+            diskSize: model.diskSize(),
             metadata: model.metadata(),
             growingId: model.growingId(),
             serviceAccount: model.serviceAccount(),
