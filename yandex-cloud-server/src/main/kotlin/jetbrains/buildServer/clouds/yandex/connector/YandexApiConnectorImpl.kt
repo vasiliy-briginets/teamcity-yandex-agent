@@ -162,6 +162,11 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
                                 setPrimaryV6AddressSpec(PrimaryAddressSpec.newBuilder())
                             }
                         }
+                        .apply {
+                            if (!details.securityGroups.isNullOrEmpty()) {
+                                this.addAllSecurityGroupIds(details.securityGroups.split(','))
+                            }
+                        }
                         .build())
                 .setSchedulingPolicy(SchedulingPolicy.newBuilder().setPreemptible(instance.image.imageDetails.preemptible))
                 .apply {

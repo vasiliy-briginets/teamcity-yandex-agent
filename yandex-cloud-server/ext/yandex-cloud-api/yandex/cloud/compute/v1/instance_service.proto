@@ -525,6 +525,9 @@ message NetworkInterfaceSpec {
   PrimaryAddressSpec primary_v4_address_spec = 2;
   // Primary IPv6 address that will be assigned to the instance for this network interface. IPv6 not available yet.
   PrimaryAddressSpec primary_v6_address_spec = 3;
+
+  // ID's of security groups attached to the interface
+  repeated string security_group_ids = 6;
 }
 
 message PrimaryAddressSpec {
