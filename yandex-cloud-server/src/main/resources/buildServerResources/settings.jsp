@@ -190,6 +190,15 @@
                     <label for="${cons.ipv6}">Allocate IPv6 address</label>
                 </td>
             </tr>
+            <tr>
+                <th class="noBorder">Security groups:</th>
+                <td>
+                    <input type="text" name="${cons.securityGroups}" class="longField ignoreModified"
+                           data-bind="textInput: image().securityGroups"/>
+                    <span class="smallNote">Comma-separated list of security group IDs.</span>
+                    <span class="error option-error" data-bind="validationMessage: image().securityGroups"></span>
+                </td>
+            </tr>
             <tr class="advancedSetting">
                 <th>Service Account:</th>
                 <td>

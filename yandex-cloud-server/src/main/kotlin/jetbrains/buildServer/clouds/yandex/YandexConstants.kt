@@ -74,6 +74,9 @@ class YandexConstants {
     val ipv6: String
         get() = IPV6
 
+    val securityGroups: String
+        get() = SECURITY_GROUPS
+
     val nat: String
         get() = NAT
 
@@ -106,5 +109,6 @@ class YandexConstants {
         const val SERVICE_ACCOUNT = "serviceAccount"
         const val INSTANCE_FOLDER = "instanceFolder"
         const val COMPUTE_ID = "computeID"
+        const val SECURITY_GROUPS = "securityGroups"
     }
 }

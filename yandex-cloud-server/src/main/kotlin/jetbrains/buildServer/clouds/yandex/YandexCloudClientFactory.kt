@@ -86,6 +86,7 @@ class YandexCloudClientFactory(cloudRegistrar: CloudRegistrar,
                             ?: "").toBoolean(),
                     (it.getParameter(YandexConstants.NAT)
                             ?: "").toBoolean(),
+                    it.getParameter(YandexConstants.SECURITY_GROUPS),
                     it.getParameter(YandexConstants.MACHINE_CORES)!!.toLong(),
                     it.getParameter(YandexConstants.MACHINE_MEMORY)!!.toLong()*1024*1024*1024,
                     (it.getParameter(YandexConstants.MAX_INSTANCES_COUNT)

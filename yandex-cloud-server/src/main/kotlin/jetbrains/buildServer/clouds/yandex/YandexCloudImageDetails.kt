@@ -37,6 +37,8 @@ class YandexCloudImageDetails(
         val ipv6: Boolean = false,
         @SerializedName(YandexConstants.NAT)
         val nat: Boolean = true,
+        @SerializedName(YandexConstants.SECURITY_GROUPS)
+        val securityGroups: String?,
         @SerializedName(YandexConstants.MACHINE_CORES)
         val machineCores: Long,
         @SerializedName(YandexConstants.MACHINE_MEMORY)
