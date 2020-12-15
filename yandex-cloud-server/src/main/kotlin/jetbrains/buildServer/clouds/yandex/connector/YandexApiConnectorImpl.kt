@@ -137,6 +137,10 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
         }
 
         val request = CreateInstanceRequest.newBuilder()
+                .putAllLabels(mapOf(
+                        "agent-image-id" to image.id,
+                        "agent-image-name" to image.name
+                ))
                 .setFolderId(instanceFolder)
                 .setName(instance.name)
                 .setZoneId(instance.zone)
