@@ -35,9 +35,7 @@ import yandex.cloud.iam.v1.ServiceAccountServiceOuterClass.GetServiceAccountRequ
 import yandex.cloud.operation.OperationServiceGrpc
 import yandex.cloud.resourcemanager.v1.FolderServiceGrpc
 import yandex.cloud.vpc.v1.NetworkServiceGrpc
-import yandex.cloud.vpc.v1.NetworkServiceOuterClass.*
 import yandex.cloud.vpc.v1.SubnetServiceGrpc
-import yandex.cloud.vpc.v1.SubnetServiceOuterClass.*
 import java.io.StringReader
 import java.security.KeyFactory
 import java.security.PrivateKey
@@ -94,9 +92,26 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
         val details = instance.image.imageDetails
         val instanceFolder = if (details.instanceFolder.isNullOrEmpty()) saFolderId else details.instanceFolder
 
+        val image = imageService.get(GetImageRequest.newBuilder()
+                .setImageId(details.sourceImage)
+                .build())
+                .get()
+
+        val updatedData = CloudInstanceUserData(userData.agentName,
+                userData.authToken,
+                userData.serverAddress,
+                userData.idleTimeout,
+                userData.profileId,
+                userData.profileDescription,
+                userData.customAgentConfigurationParameters.toMutableMap().apply {
+                    this["yandex.compute.image.id"] = image.id
+                    this["yandex.compute.image.name"] = image.name
+                }
+        )
+
         val metadata = mutableMapOf(
                 YandexConstants.TAG_SERVER to myServerId,
-                YandexConstants.TAG_DATA to userData.serialize(),
+                YandexConstants.TAG_DATA to updatedData.serialize(),
                 YandexConstants.TAG_PROFILE to myProfileId,
                 YandexConstants.TAG_SOURCE to details.sourceId
         ).apply {
@@ -120,11 +135,6 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
                 }
             }
         }
-
-        val image = imageService.get(GetImageRequest.newBuilder()
-                .setImageId(details.sourceImage)
-                .build())
-                .get()
 
         val request = CreateInstanceRequest.newBuilder()
                 .setFolderId(instanceFolder)
