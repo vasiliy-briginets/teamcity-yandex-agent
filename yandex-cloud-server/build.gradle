@@ -1,6 +1,6 @@
 plugins {
-    id 'com.github.rodm.teamcity-server' version "1.1.1"
-    id 'com.google.protobuf' version "0.8.9"
+    id 'com.github.rodm.teamcity-server' version "$teamcityPluginVersion"
+    id 'com.google.protobuf' version "$protobufPluginVersion"
     id 'idea'
 }
 teamcity {
@@ -14,30 +14,29 @@ teamcity {
 dependencies {
     agent project(path: ':yandex-cloud-agent', configuration: 'plugin')
     server project(':yandex-cloud-common')
+    implementation project(':yandex-cloud-common')
     server project(':yandex-cloud-server-base')
-    provided project(':yandex-cloud-server-base')
+    implementation project(':yandex-cloud-server-base')
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_version"
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxVersion"
 
-    compile 'com.fasterxml.jackson.core:jackson-core:2.9.7'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.7'
+    compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
 
-    compile 'io.grpc:grpc-stub:1.19.0'
-    compile 'io.grpc:grpc-protobuf:1.19.0'
-    compile 'io.grpc:grpc-netty-shaded:1.19.0'
-    compile 'io.netty:netty-tcnative-boringssl-static:2.0.20.Final:linux-x86_64'
-    compile 'org.bouncycastle:bcprov-jdk15on:1.62'
+    compile "io.grpc:grpc-stub:$grpcVersion"
+    compile "io.grpc:grpc-protobuf:$grpcVersion"
+    compile "io.grpc:grpc-netty-shaded:$grpcVersion"
+    compile "io.netty:netty-tcnative-boringssl-static:$nettyBoringSslVersion:linux-x86_64"
+    compile "org.bouncycastle:bcprov-jdk15on:$bcprovVersion"
 
-    compile 'com.google.protobuf:protobuf-java:3.0.0'
-    compile 'com.google.api.grpc:proto-google-common-protos:1.12.0'
+    compile "com.google.protobuf:protobuf-java:$protobufJavaVersion"
+    compile "com.google.api.grpc:proto-google-common-protos:$commonProtosVersion"
 
-    compile 'io.jsonwebtoken:jjwt-api:0.10.5'
-    runtime 'io.jsonwebtoken:jjwt-impl:0.10.5',
-            'io.jsonwebtoken:jjwt-jackson:0.10.5'
+    compile "io.jsonwebtoken:jjwt-api:$jjwtVersion"
+    runtime "io.jsonwebtoken:jjwt-impl:$jjwtVersion",
+            "io.jsonwebtoken:jjwt-jackson:$jjwtVersion"
 
     provided "org.jetbrains.teamcity.internal:server:$teamcityVersion"
-    testCompile 'org.testng:testng:6.8'
 }
 
 serverPlugin.version = null
@@ -65,11 +64,11 @@ sourceSets {
 
 protobuf {
     protoc {
-        artifact = 'com.google.protobuf:protoc:3.4.0'
+        artifact = "com.google.protobuf:protoc:$protocVersion"
     }
     plugins {
         grpc {
-            artifact = 'io.grpc:protoc-gen-grpc-java:1.19.0'
+            artifact = "io.grpc:protoc-gen-grpc-java:$grpcVersion"
         }
     }
     generateProtoTasks {
