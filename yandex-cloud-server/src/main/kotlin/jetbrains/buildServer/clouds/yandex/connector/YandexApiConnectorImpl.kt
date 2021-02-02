@@ -75,15 +75,17 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
 
     override fun test() {
         try {
-            if (folderService.listAccessBindings(Access.ListAccessBindingsRequest.newBuilder()
-                            .setResourceId(saFolderId)
-                            .build()).accessBindingsList.none() {
+            LOG.debug("Testing SA $myServiceAccountId roles in folder $saFolderId")
+            val accessBindingsList = folderService.listAccessBindings(Access.ListAccessBindingsRequest.newBuilder()
+                    .setResourceId(saFolderId)
+                    .build()).accessBindingsList
+            if (accessBindingsList.none() {
                         it.subject.id == myServiceAccountId && (it.roleId == "editor" || it.roleId == "admin")
                     }) {
-                throw CloudException("Missing required role editor or admin ")
+                throw CloudException("Missing required role editor or admin")
             }
         } catch (ex: StatusRuntimeException) {
-            throw CloudException("Missing required role editor or admin ")
+            throw CloudException("Error listing access bindings in folder $saFolderId: ${ex.message}")
         }
     }
 
@@ -144,7 +146,12 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
                 .setFolderId(instanceFolder)
                 .setName(instance.name)
                 .setZoneId(instance.zone)
-                .setPlatformId("standard-v1")
+                .apply {
+                    platformId = "standard-v2"
+                    if (!details.platformId.isNullOrBlank()) {
+                        platformId = details.platformId
+                    }
+                }
                 .setResourcesSpec(ResourcesSpec.newBuilder()
                         .setCores(details.machineCores)
                         .setMemory(details.machineMemory))
@@ -194,6 +201,7 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
         resp.await()
         val meta = resp.get().metadata.unpack(CreateInstanceMetadata::class.java)
         instance.computeId = meta.instanceId
+        LOG.info("Creating instance for agent ${instance.name}. Instance ID: ${meta.instanceId}, Operation ID: ${resp.get().id}")
 
         Unit
     }

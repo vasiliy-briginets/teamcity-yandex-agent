@@ -100,7 +100,8 @@ class YandexCloudClientFactory(cloudRegistrar: CloudRegistrar,
                     (it.getParameter(YandexConstants.GROWING_ID)
                             ?: "").toBoolean(),
                     it.getParameter(YandexConstants.SERVICE_ACCOUNT),
-                    it.getParameter(YandexConstants.INSTANCE_FOLDER)
+                    it.getParameter(YandexConstants.INSTANCE_FOLDER),
+                    it.getParameter(YandexConstants.PLATFOTM_ID)
             )
         }
     }

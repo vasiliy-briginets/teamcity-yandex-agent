@@ -72,6 +72,15 @@
                 </td>
             </tr>
             <tr>
+                <th class="noBorder">Platform ID:</th>
+                <td>
+                    <input type="text" name="${cons.platformId}" class="longField ignoreModified"
+                           data-bind="textInput: image().platformId"/>
+                    <span class="smallNote">Compute platform ID string (i.e.: 'standard-v2').</span>
+                    <span class="error option-error" data-bind="validationMessage: image().platformId"></span>
+                </td>
+            </tr>
+            <tr>
                 <th><label for="${cons.zone}">Zone: <l:star/></label></th>
                 <td>
                     <select name="${cons.zone}" class="longField ignoreModified"

@@ -70,6 +70,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
     self.image = ko.validatedObservable({
         sourceImage: ko.observable().extend({required: true}),
         zone: ko.observable().extend({required: true}),
+        platformId: ko.observable(),
         network: ko.observable().extend({required: true}),
         subnet: ko.observable().extend({required: true}),
         ipv6: ko.observable(false),
@@ -228,6 +229,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
 
         model.sourceImage(image.sourceImage);
         model.zone(image.zone);
+        model.platformId(image.platformId);
         model.network(network);
         var subnet = image.subnet;
         changeSubnets(network, subnet);
@@ -269,6 +271,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
         var image = {
             sourceImage: model.sourceImage(),
             zone: model.zone(),
+            platformId: model.platformId(),
             network: model.network(),
             subnet: model.subnet(),
             ipv6: model.ipv6(),
