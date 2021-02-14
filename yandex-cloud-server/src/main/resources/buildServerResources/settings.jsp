@@ -277,7 +277,7 @@
                     <td class="nowrap" data-bind="text: sourceImage.slice(-80), attr: {title: sourceImage}"></td>
                     <td class="nowrap" data-bind="text: machineCores, attr: {title: machineCores}"></td>
                     <td class="nowrap" data-bind="text: machineMemory, attr: {title: machineMemory}"></td>
-                    <td class="nowrap" data-bind="text: diskSize, attr: {title: diskSize}"></td>
+                    <td class="nowrap" data-bind="text: hasOwnProperty(`diskSize`) ? diskSize || `from image` : `from image`"></td>
                     <td class="center edit" data-bind="text: maxInstances"></td>
                     <td class="edit">
                         <a href="#" data-bind="click: $parent.showDialog,
