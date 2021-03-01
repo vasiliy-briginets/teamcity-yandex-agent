@@ -65,6 +65,9 @@ class YandexConstants {
     val preemptible: String
         get() = PREEMPTIBLE
 
+    val customProps: String
+        get() = CUSTOM_PROPS
+
     val metadata: String
         get() = METADATA
 
@@ -114,5 +117,6 @@ class YandexConstants {
         const val INSTANCE_FOLDER = "instanceFolder"
         const val COMPUTE_ID = "computeID"
         const val SECURITY_GROUPS = "securityGroups"
+        const val CUSTOM_PROPS = "customProps"
     }
 }

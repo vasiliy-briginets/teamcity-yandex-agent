@@ -62,7 +62,9 @@ class YandexCloudImageDetails(
         @SerializedName(YandexConstants.INSTANCE_FOLDER)
         val instanceFolder: String?,
         @SerializedName(YandexConstants.INSTANCE_FOLDER)
-        val platformId: String?) : CloudImageDetails {
+        val platformId: String?,
+        @SerializedName(YandexConstants.CUSTOM_PROPS)
+        val customProps: String?) : CloudImageDetails {
 
     override fun getSourceId(): String {
         return sourceId

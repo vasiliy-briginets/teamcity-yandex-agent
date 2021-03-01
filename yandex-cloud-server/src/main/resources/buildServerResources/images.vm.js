@@ -76,6 +76,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
         ipv6: ko.observable(false),
         nat: ko.observable(false),
         securityGroups: ko.observable(),
+        customProps: ko.observable(),
         maxInstances: ko.observable(1).extend({required: true, min: 0}),
         preemptible: ko.observable(false),
         machineCores: ko.observable().extend({
@@ -237,6 +238,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
         model.ipv6(image.ipv6);
         model.nat(image.nat);
         model.securityGroups(image.securityGroups);
+        model.customProps(image.customProps);
         model.machineCores(image.machineCores);
         model.machineMemory(image.machineMemory);
         model.diskType(diskType);
@@ -277,6 +279,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
             ipv6: model.ipv6(),
             nat: model.nat(),
             securityGroups: model.securityGroups(),
+            customProps: model.customProps(),
             maxInstances: model.maxInstances(),
             preemptible: model.preemptible(),
             'source-id': model.vmNamePrefix(),

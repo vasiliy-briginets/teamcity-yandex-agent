@@ -235,6 +235,15 @@
                     <span class="error option-error" data-bind="validationMessage: image().metadata"></span>
                 </td>
             </tr>
+            <tr>
+                <th class="noBorder">Custom properties:</th>
+                <td>
+                    <input type="text" name="${cons.customProps}" class="longField ignoreModified"
+                           data-bind="textInput: image().customProps"/>
+                    <span class="smallNote">Comma-separated list of custom agent properties (key=value,...).</span>
+                    <span class="error option-error" data-bind="validationMessage: image().customProps"></span>
+                </td>
+            </tr>
             <tr class="advancedSetting">
                 <th><label for="${cons.agentPoolId}">Agent pool:</label></th>
                 <td>

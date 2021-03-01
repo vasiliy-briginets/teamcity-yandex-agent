@@ -108,6 +108,14 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
                 userData.customAgentConfigurationParameters.toMutableMap().apply {
                     this["yandex.compute.image.id"] = image.id
                     this["yandex.compute.image.name"] = image.name
+                    if (!details.customProps.isNullOrEmpty()) {
+                        details.customProps.split(',').forEach{
+                            val kv = it.split('=')
+                            if (kv.size == 2) {
+                                this[kv[0]] = kv[1]
+                            }
+                        }
+                    }
                 }
         )
 
