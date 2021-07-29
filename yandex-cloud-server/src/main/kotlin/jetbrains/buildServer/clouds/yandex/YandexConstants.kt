@@ -53,6 +53,15 @@ class YandexConstants {
     val diskSize: String
         get() = DISK_SIZE
 
+    val secondaryDiskType: String
+        get() = SECONDARY_DISK_TYPE
+
+    val secondaryDiskSize: String
+        get() = SECONDARY_DISK_SIZE
+
+    val secondaryDiskMountPath: String
+        get() = SECONDARY_DISK_MOUNT_PATH
+
     val vmNamePrefix: String
         get() = CloudImageParameters.SOURCE_ID_FIELD
 
@@ -106,10 +115,14 @@ class YandexConstants {
         const val MACHINE_MEMORY = "machineMemory"
         const val DISK_TYPE = "diskType"
         const val DISK_SIZE = "diskSize"
+        const val SECONDARY_DISK_TYPE = "secondaryDiskType"
+        const val SECONDARY_DISK_SIZE = "secondaryDiskSize"
+        const val SECONDARY_DISK_MOUNT_PATH = "secondaryDiskMountPath"
         const val TAG_SERVER = "teamcity-server"
         const val TAG_DATA = "teamcity-data"
         const val TAG_PROFILE = "teamcity-profile"
         const val TAG_SOURCE = "teamcity-source"
+        const val TAG_USER_DATA = "user-data"
         const val PREEMPTIBLE = "preemptible"
         const val METADATA = "metadata"
         const val GROWING_ID = "growingId"

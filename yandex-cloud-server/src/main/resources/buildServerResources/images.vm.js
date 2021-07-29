@@ -98,6 +98,9 @@ function YandexImagesViewModel($, ko, dialog, config) {
         }),
         diskType: ko.observable(),
         diskSize: ko.observable(),
+        secondaryDiskType: ko.observable(),
+        secondaryDiskSize: ko.observable(),
+        secondaryDiskMountPath: ko.observable(),
         vmNamePrefix: ko.observable('').trimmed().extend({required: true, maxLength: maxLength}).extend({
             validation: {
                 validator: function (value) {
@@ -221,6 +224,13 @@ function YandexImagesViewModel($, ko, dialog, config) {
             self.diskTypes({id: diskType, text: diskType});
         }
 
+        var secondaryDiskType = image.secondaryDiskType;
+        if (secondaryDiskType && !ko.utils.arrayFirst(self.diskTypes(), function (item) {
+            return item.id === secondaryDiskType;
+        })) {
+            self.diskTypes({id: secondaryDiskType, text: secondaryDiskType});
+        }
+
         var network = image.network;
         if (network && !ko.utils.arrayFirst(self.networks(), function (item) {
             return item.id === network;
@@ -243,6 +253,9 @@ function YandexImagesViewModel($, ko, dialog, config) {
         model.machineMemory(image.machineMemory);
         model.diskType(diskType);
         model.diskSize(image.diskSize);
+        model.secondaryDiskType(secondaryDiskType);
+        model.secondaryDiskSize(image.secondaryDiskSize);
+        model.secondaryDiskMountPath(image.secondaryDiskMountPath);
         model.maxInstances(image.maxInstances);
         model.preemptible(image.preemptible);
         model.vmNamePrefix(image['source-id']);
@@ -287,6 +300,9 @@ function YandexImagesViewModel($, ko, dialog, config) {
             machineMemory: model.machineMemory(),
             diskType: model.diskType(),
             diskSize: model.diskSize(),
+            secondaryDiskType: model.secondaryDiskType(),
+            secondaryDiskSize: model.secondaryDiskSize(),
+            secondaryDiskMountPath: model.secondaryDiskMountPath(),
             metadata: model.metadata(),
             growingId: model.growingId(),
             serviceAccount: model.serviceAccount(),
@@ -505,4 +521,17 @@ function YandexImagesViewModel($, ko, dialog, config) {
             self.showAccessKey(true);
         }
     };
+}
+
+function FormatDiskSummary (image) {
+    let summary = ''
+    if (image.diskSize > 0) {
+        summary += image.diskSize
+    } else {
+        summary += 'IMG'
+    }
+    if (image.secondaryDiskSize > 0) {
+        summary += ` / ${image.secondaryDiskSize}`
+    }
+    return summary
 }

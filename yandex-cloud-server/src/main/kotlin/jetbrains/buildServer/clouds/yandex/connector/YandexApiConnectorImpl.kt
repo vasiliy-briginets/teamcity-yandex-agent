@@ -123,7 +123,9 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
                 YandexConstants.TAG_SERVER to myServerId,
                 YandexConstants.TAG_DATA to updatedData.serialize(),
                 YandexConstants.TAG_PROFILE to myProfileId,
-                YandexConstants.TAG_SOURCE to details.sourceId
+                YandexConstants.TAG_SOURCE to details.sourceId,
+                YandexConstants.TAG_USER_DATA to formatCloudConfig(
+                    "/dev/disk/by-id/virtio-agent-data", details.secondaryDiskMountPath?: "/opt/buildagent/work")
         ).apply {
             details.metadata?.let {
                 if (it.isBlank()) {
@@ -164,6 +166,23 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
                         .setCores(details.machineCores)
                         .setMemory(details.machineMemory))
                 .putAllMetadata(metadata)
+                .apply {
+                    if (details.secondaryDiskSize > 0) {
+                        addSecondaryDiskSpecs(AttachedDiskSpec.newBuilder()
+                            .setDeviceName("agent-data")
+                            .setAutoDelete(true)
+                            .setMode(AttachedDiskSpec.Mode.READ_WRITE)
+                            .setDiskSpec(AttachedDiskSpec.DiskSpec.newBuilder()
+                                .setSize(details.secondaryDiskSize)
+                                .apply {
+                                    if (!details.secondaryDiskType.isNullOrBlank()) {
+                                        typeId = details.secondaryDiskType
+                                    }
+                                }
+                            )
+                        )
+                    }
+                }
                 .setBootDiskSpec(AttachedDiskSpec.newBuilder()
                         .setAutoDelete(true)
                         .setMode(AttachedDiskSpec.Mode.READ_WRITE)
@@ -462,3 +481,13 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
         }
     }
 }
+
+private fun formatCloudConfig(device: String, workDir: String): String = """
+    #cloud-config
+    fs_setup:
+      - device: '${device}'
+        filesystem: 'ext4'
+        overwrite: False
+    mounts:
+      - ['${device}', '${workDir}']
+    """.trimIndent()

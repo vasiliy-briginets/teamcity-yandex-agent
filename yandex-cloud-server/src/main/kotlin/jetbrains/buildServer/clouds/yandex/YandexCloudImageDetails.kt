@@ -53,6 +53,12 @@ class YandexCloudImageDetails(
         val diskType: String?,
         @SerializedName(YandexConstants.DISK_SIZE)
         val diskSize: Long,
+        @SerializedName(YandexConstants.SECONDARY_DISK_TYPE)
+        val secondaryDiskType: String?,
+        @SerializedName(YandexConstants.SECONDARY_DISK_SIZE)
+        val secondaryDiskSize: Long,
+        @SerializedName(YandexConstants.SECONDARY_DISK_MOUNT_PATH)
+        val secondaryDiskMountPath: String?,
         @SerializedName(YandexConstants.METADATA)
         val metadata: String?,
         @SerializedName(YandexConstants.GROWING_ID)

@@ -176,6 +176,33 @@
                 </td>
             </tr>
             <tr>
+                <th class="noBorder">Secondary disk size (GB):</th>
+                <td>
+                    <input type="text" name="${cons.secondaryDiskSize}" class="longField ignoreModified"
+                           data-bind="textInput: image().secondaryDiskSize"/>
+                    <span class="smallNote">Disk for teamcity data. Zero or blank to not use secondary disk.</span>
+                    <span class="error option-error" data-bind="validationMessage: image().secondaryDiskSize"></span>
+                </td>
+            </tr>
+            <tr class="advancedSetting">
+                <th><label for="${cons.secondaryDiskType}">Secondary disk type:</label></th>
+                <td>
+                    <select name="${cons.secondaryDiskType}" class="longField ignoreModified"
+                            data-bind="options: diskTypes, optionsText: 'text', optionsValue: 'id',
+                             value: image().secondaryDiskType, optionsCaption: '<Not specified>'"></select>
+                    <i class="icon-refresh icon-spin" data-bind="css: {invisible: !loadingResources()}"></i>
+                </td>
+            </tr>
+            <tr>
+                <th class="noBorder">Secondary disk mount path:</th>
+                <td>
+                    <input type="text" name="${cons.secondaryDiskMountPath}" class="longField ignoreModified"
+                           data-bind="textInput: image().secondaryDiskMountPath"/>
+                    <span class="smallNote">Mount path for secondary disk. Leave blank to use default (/opt/buildagent/work).</span>
+                    <span class="error option-error" data-bind="validationMessage: image().secondaryDiskMountPath"></span>
+                </td>
+            </tr>
+            <tr>
                 <th class="noBorder"><label for="${cons.subnet}">Subnet:</label><l:star/></th>
                 <td>
                     <input type="text" name="${cons.subnet}" class="longField ignoreModified"
@@ -286,7 +313,7 @@
                     <td class="nowrap" data-bind="text: sourceImage.slice(-80), attr: {title: sourceImage}"></td>
                     <td class="nowrap" data-bind="text: machineCores, attr: {title: machineCores}"></td>
                     <td class="nowrap" data-bind="text: machineMemory, attr: {title: machineMemory}"></td>
-                    <td class="nowrap" data-bind="text: hasOwnProperty(`diskSize`) ? diskSize || `from image` : `from image`"></td>
+                    <td class="nowrap" data-bind="text: FormatDiskSummary($data)"></td>
                     <td class="center edit" data-bind="text: maxInstances"></td>
                     <td class="edit">
                         <a href="#" data-bind="click: $parent.showDialog,
