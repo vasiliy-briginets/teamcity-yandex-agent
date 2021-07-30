@@ -254,12 +254,22 @@
                 <th><label for="${cons.metadata}">Custom metadata:</label></th>
                 <td>
                     <a href="#" data-bind="click: function(data) { showMetadata(true) }, visible: !showMetadata()">Edit metadata</a>
-                    <textarea name="${cons.metadata}" class="longField ignoreModified" rows="3" cols="49"
+                    <textarea name="${cons.metadata}" class="longField ignoreModified" rows="10" cols="49"
                               data-bind="textInput: image().metadata, visible: showMetadata()"></textarea>
                     <span class="smallNote" data-bind="visible: showMetadata()">Specify the instance metadata in JSON format.
                         <bs:help urlPrefix="https://cloud.yandex.ru/docs/compute/concepts/vm-metadata" file=""/>
                     </span>
                     <span class="error option-error" data-bind="validationMessage: image().metadata"></span>
+                </td>
+            </tr>
+            <tr class="advancedSetting">
+                <th><label for="${cons.metadata}">Custom cloud-config:</label></th>
+                <td>
+                    <a href="#" data-bind="click: function(data) { showCloudConfig(true) }, visible: !showCloudConfig()">Edit cloud-config</a>
+                    <textarea name="${cons.cloudConfig}" class="longField ignoreModified" rows="10" cols="49"
+                              data-bind="textInput: image().cloudConfig, visible: showCloudConfig()"></textarea>
+                    <span class="smallNote" data-bind="visible: showCloudConfig()">Specify additional cloud-config for the instance. Can be yaml (must start from #cloud-config) or raw shell script.</span>
+                    <span class="error option-error" data-bind="validationMessage: image().cloudConfig"></span>
                 </td>
             </tr>
             <tr>

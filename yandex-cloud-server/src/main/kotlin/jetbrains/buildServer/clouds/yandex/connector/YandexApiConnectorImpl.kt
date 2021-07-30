@@ -124,8 +124,6 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
                 YandexConstants.TAG_DATA to updatedData.serialize(),
                 YandexConstants.TAG_PROFILE to myProfileId,
                 YandexConstants.TAG_SOURCE to details.sourceId,
-                YandexConstants.TAG_USER_DATA to formatCloudConfig(
-                    "/dev/disk/by-id/virtio-agent-data", details.secondaryDiskMountPath?: "/opt/buildagent/work")
         ).apply {
             details.metadata?.let {
                 if (it.isBlank()) {
@@ -146,6 +144,20 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
                     }
                 }
             }
+        }
+
+        val cloudConfigs = mutableListOf<String>()
+        if (details.secondaryDiskSize > 0) {
+            cloudConfigs.add(formatSecondaryDiskCloudConfig(
+                device = "/dev/disk/by-id/virtio-agent-data",
+                workDir = details.secondaryDiskMountPath?: "/opt/buildagent/work",
+            ))
+        }
+        if (!details.cloudConfig.isNullOrEmpty()) {
+            cloudConfigs.add(details.cloudConfig)
+        }
+        if (cloudConfigs.isNotEmpty()) {
+            metadata[YandexConstants.TAG_USER_DATA] = combineCloudConfigs(cloudConfigs)
         }
 
         val request = CreateInstanceRequest.newBuilder()
@@ -482,7 +494,7 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
     }
 }
 
-private fun formatCloudConfig(device: String, workDir: String): String = """
+private fun formatSecondaryDiskCloudConfig(device: String, workDir: String): String = """
     #cloud-config
     fs_setup:
       - device: '${device}'
@@ -490,4 +502,26 @@ private fun formatCloudConfig(device: String, workDir: String): String = """
         overwrite: False
     mounts:
       - ['${device}', '${workDir}']
-    """.trimIndent()
+""".trimIndent()
+
+private fun combineCloudConfigs(configs: Iterable<String>): String {
+    var combined = """
+        Content-Type: multipart/mixed; boundary="==BOUNDARY=="
+        MIME-Version: 1.0
+    """.trimIndent() + "\n\n"
+
+    for (c in configs) {
+        val conf = c.trim()
+        if (conf.isNotEmpty()) {
+            val contentType = if (conf.startsWith("#cloud-config"))
+                "text/cloud-config" else "text/x-shellscript"
+            combined += """
+                --==BOUNDARY==
+                MIME-Version: 1.0
+                Content-Type: ${contentType}
+            """.trimIndent() + "\n\n"
+            combined += conf + "\n\n"
+        }
+    }
+    return combined
+}

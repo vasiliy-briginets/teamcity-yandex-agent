@@ -21,6 +21,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
     self.errorResources = ko.observable("");
     self.showAccessKey = ko.observable(false);
     self.showMetadata = ko.observable(false);
+    self.showCloudConfig = ko.observable(false);
     self.showServiceAccount = ko.observable(false);
     self.showInstanceFolder = ko.observable(false);
     self.isDragOver = ko.observable(false);
@@ -141,6 +142,11 @@ function YandexImagesViewModel($, ko, dialog, config) {
                                 console.log("Invalid value for key: " + key);
                                 return false;
                             }
+
+                            if (key === "user-data") {
+                                console.log("'user-data' metadata key is not allowed. Use cloud-config option instead.");
+                                return false;
+                            }
                         }
                     }
 
@@ -149,6 +155,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
                 message: "Invalid metadata value"
             }
         }),
+        cloudConfig: ko.observable(),
         growingId: ko.observable(false),
         serviceAccount: ko.observable(),
         instanceFolder: ko.observable(),
@@ -260,6 +267,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
         model.preemptible(image.preemptible);
         model.vmNamePrefix(image['source-id']);
         model.metadata(image.metadata);
+        model.cloudConfig(image.cloudConfig);
         model.growingId(image.growingId);
         model.serviceAccount(image.serviceAccount);
         model.instanceFolder(image.instanceFolder);
@@ -267,6 +275,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
         model.profileId(image.profileId);
 
         self.showMetadata(false);
+        self.showCloudConfig(false);
         self.showServiceAccount(!!image.serviceAccount);
         self.showInstanceFolder(!!image.instanceFolder);
 
@@ -304,6 +313,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
             secondaryDiskSize: model.secondaryDiskSize(),
             secondaryDiskMountPath: model.secondaryDiskMountPath(),
             metadata: model.metadata(),
+            cloudConfig: model.cloudConfig(),
             growingId: model.growingId(),
             serviceAccount: model.serviceAccount(),
             instanceFolder: model.instanceFolder(),

@@ -80,6 +80,9 @@ class YandexConstants {
     val metadata: String
         get() = METADATA
 
+    val cloudConfig: String
+        get() = CLOUD_CONFIG
+
     val growingId: String
         get() = GROWING_ID
 
@@ -125,6 +128,7 @@ class YandexConstants {
         const val TAG_USER_DATA = "user-data"
         const val PREEMPTIBLE = "preemptible"
         const val METADATA = "metadata"
+        const val CLOUD_CONFIG = "cloudConfig"
         const val GROWING_ID = "growingId"
         const val SERVICE_ACCOUNT = "serviceAccount"
         const val INSTANCE_FOLDER = "instanceFolder"

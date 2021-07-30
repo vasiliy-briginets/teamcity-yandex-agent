@@ -61,6 +61,8 @@ class YandexCloudImageDetails(
         val secondaryDiskMountPath: String?,
         @SerializedName(YandexConstants.METADATA)
         val metadata: String?,
+        @SerializedName(YandexConstants.CLOUD_CONFIG)
+        val cloudConfig: String?,
         @SerializedName(YandexConstants.GROWING_ID)
         val growingId: Boolean = false,
         @SerializedName(YandexConstants.SERVICE_ACCOUNT)

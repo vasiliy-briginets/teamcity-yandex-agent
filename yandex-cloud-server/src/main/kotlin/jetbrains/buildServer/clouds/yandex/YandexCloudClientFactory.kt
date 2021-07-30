@@ -100,6 +100,7 @@ class YandexCloudClientFactory(cloudRegistrar: CloudRegistrar,
                     it.getParameter(YandexConstants.SECONDARY_DISK_SIZE).let { if (it.isNullOrEmpty()) 0 else it.toLong()*1024*1024*1024 },
                     it.getParameter(YandexConstants.SECONDARY_DISK_MOUNT_PATH),
                     it.getParameter(YandexConstants.METADATA),
+                    it.getParameter(YandexConstants.CLOUD_CONFIG),
                     (it.getParameter(YandexConstants.GROWING_ID)
                             ?: "").toBoolean(),
                     it.getParameter(YandexConstants.SERVICE_ACCOUNT),
