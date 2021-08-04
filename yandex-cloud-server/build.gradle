@@ -1,6 +1,5 @@
 plugins {
     id 'com.github.rodm.teamcity-server' version "$teamcityPluginVersion"
-    id 'com.google.protobuf' version "$protobufPluginVersion"
     id 'idea'
 }
 teamcity {
@@ -37,6 +36,8 @@ dependencies {
             "io.jsonwebtoken:jjwt-jackson:$jjwtVersion"
 
     provided "org.jetbrains.teamcity.internal:server:$teamcityVersion"
+
+    provided "com.yandex.cloud:java-sdk-services:$cloudSDKVersion"
 }
 
 serverPlugin.version = null
@@ -50,34 +51,6 @@ compileKotlin {
         jvmTarget = '1.8'
     }
 }
-
-
-sourceSets {
-    main {
-        proto {
-            srcDir 'ext/yandex-cloud-api/'
-            include 'yandex/**/*.proto'
-            exclude 'third_party/**/*.proto'
-        }
-    }
-}
-
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:$protocVersion"
-    }
-    plugins {
-        grpc {
-            artifact = "io.grpc:protoc-gen-grpc-java:$grpcVersion"
-        }
-    }
-    generateProtoTasks {
-        ofSourceSet('main')*.plugins {
-            grpc { }
-        }
-    }
-}
-
 
 idea {
     module {

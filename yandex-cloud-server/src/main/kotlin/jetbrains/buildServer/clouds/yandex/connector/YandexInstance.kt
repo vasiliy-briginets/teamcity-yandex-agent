@@ -19,7 +19,7 @@ package jetbrains.buildServer.clouds.yandex.connector
 import jetbrains.buildServer.clouds.InstanceStatus
 import jetbrains.buildServer.clouds.base.connector.AbstractInstance
 import jetbrains.buildServer.clouds.yandex.YandexConstants
-import yandex.cloud.compute.v1.InstanceOuterClass
+import yandex.cloud.api.compute.v1.InstanceOuterClass
 import java.text.SimpleDateFormat
 import java.util.*
 
