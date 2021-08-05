@@ -40,9 +40,11 @@ import java.io.StringReader
 import java.security.KeyFactory
 import java.security.PrivateKey
 import java.security.spec.PKCS8EncodedKeySpec
+import java.text.MessageFormat
 import java.time.Instant
 import java.util.*
 import java.util.concurrent.Executor
+import java.util.stream.Collectors
 
 class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
 
@@ -219,7 +221,13 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
                                 })
                         .apply {
                             if (details.ipv6) {
-                                setPrimaryV6AddressSpec(PrimaryAddressSpec.newBuilder())
+                                setPrimaryV6AddressSpec(PrimaryAddressSpec.newBuilder()
+                                    .apply {
+                                        if (!details.dnsRecords.isNullOrBlank()) {
+                                            addAllDnsRecordSpecs(parseDNSRecords(details.dnsRecords, instance.name))
+                                        }
+                                    }
+                                )
                             }
                         }
                         .apply {
@@ -525,3 +533,18 @@ private fun combineCloudConfigs(configs: Iterable<String>): String {
     }
     return combined
 }
+
+private fun parseDNSRecords(recordsText: String, instanceName: String): List<DnsRecordSpec> =
+    recordsText.lines().stream()
+        .map { line -> line.trim() }
+        .filter { line -> line.contains(":") }
+        .flatMap { line ->
+            val (zoneID, prefixes) = line.split(":")
+            prefixes.split(",").stream()
+                .map { prefix -> DnsRecordSpec.newBuilder()
+                    .setDnsZoneId(zoneID)
+                    .setFqdn(prefix.replace("{name}", instanceName))
+                    .build()
+                }
+        }
+        .collect(Collectors.toList())

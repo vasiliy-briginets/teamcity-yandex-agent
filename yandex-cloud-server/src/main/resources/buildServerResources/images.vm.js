@@ -22,6 +22,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
     self.showAccessKey = ko.observable(false);
     self.showMetadata = ko.observable(false);
     self.showCloudConfig = ko.observable(false);
+    self.showDNSRecords = ko.observable(false);
     self.showServiceAccount = ko.observable(false);
     self.showInstanceFolder = ko.observable(false);
     self.isDragOver = ko.observable(false);
@@ -156,6 +157,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
             }
         }),
         cloudConfig: ko.observable(),
+        dnsRecords: ko.observable(),
         growingId: ko.observable(false),
         serviceAccount: ko.observable(),
         instanceFolder: ko.observable(),
@@ -267,7 +269,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
         model.preemptible(image.preemptible);
         model.vmNamePrefix(image['source-id']);
         model.metadata(image.metadata);
-        model.cloudConfig(image.cloudConfig);
+        model.dnsRecords(image.dnsRecords);
         model.growingId(image.growingId);
         model.serviceAccount(image.serviceAccount);
         model.instanceFolder(image.instanceFolder);
@@ -276,6 +278,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
 
         self.showMetadata(false);
         self.showCloudConfig(false);
+        self.showDNSRecords(false);
         self.showServiceAccount(!!image.serviceAccount);
         self.showInstanceFolder(!!image.instanceFolder);
 
@@ -313,7 +316,7 @@ function YandexImagesViewModel($, ko, dialog, config) {
             secondaryDiskSize: model.secondaryDiskSize(),
             secondaryDiskMountPath: model.secondaryDiskMountPath(),
             metadata: model.metadata(),
-            cloudConfig: model.cloudConfig(),
+            dnsRecords: model.dnsRecords(),
             growingId: model.growingId(),
             serviceAccount: model.serviceAccount(),
             instanceFolder: model.instanceFolder(),

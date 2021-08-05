@@ -63,6 +63,8 @@ class YandexCloudImageDetails(
         val metadata: String?,
         @SerializedName(YandexConstants.CLOUD_CONFIG)
         val cloudConfig: String?,
+        @SerializedName(YandexConstants.DNS_RECORDS)
+        val dnsRecords: String?,
         @SerializedName(YandexConstants.GROWING_ID)
         val growingId: Boolean = false,
         @SerializedName(YandexConstants.SERVICE_ACCOUNT)

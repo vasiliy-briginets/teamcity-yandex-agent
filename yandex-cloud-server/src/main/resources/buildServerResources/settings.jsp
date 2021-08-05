@@ -263,13 +263,23 @@
                 </td>
             </tr>
             <tr class="advancedSetting">
-                <th><label for="${cons.metadata}">Custom cloud-config:</label></th>
+                <th><label for="${cons.cloudConfig}">Custom cloud-config:</label></th>
                 <td>
                     <a href="#" data-bind="click: function(data) { showCloudConfig(true) }, visible: !showCloudConfig()">Edit cloud-config</a>
                     <textarea name="${cons.cloudConfig}" class="longField ignoreModified" rows="10" cols="49"
                               data-bind="textInput: image().cloudConfig, visible: showCloudConfig()"></textarea>
                     <span class="smallNote" data-bind="visible: showCloudConfig()">Specify additional cloud-config for the instance. Can be yaml (must start from #cloud-config) or raw shell script.</span>
                     <span class="error option-error" data-bind="validationMessage: image().cloudConfig"></span>
+                </td>
+            </tr>
+            <tr class="advancedSetting">
+                <th><label for="${cons.dnsRecords}">DNS Records:</label></th>
+                <td>
+                    <a href="#" data-bind="click: function(data) { showDNSRecords(true) }, visible: !showDNSRecords()">Edit DNS records</a>
+                    <textarea name="${cons.dnsRecords}" class="longField ignoreModified" rows="10" cols="49"
+                              data-bind="textInput: image().dnsRecords, visible: showDNSRecords()"></textarea>
+                    <span class="smallNote" data-bind="visible: showDNSRecords()">Specify DNS records which will be associated with agent's instance. Use new line to separate records.<br>Write records like this:<br>zone_id:prefix1,prefix2,prefix3<br>zone_id2:prefix1,prefix2<br><br>Full agent's FQDN(s) will then be in form "suffix.zone".<br>You can use "{name}" placeholder to put actual agent's name in suffix. E.g.: "{name}.dynamic"</span>
+                    <span class="error option-error" data-bind="validationMessage: image().dnsRecords"></span>
                 </td>
             </tr>
             <tr>

@@ -37,7 +37,7 @@ dependencies {
 
     provided "org.jetbrains.teamcity.internal:server:$teamcityVersion"
 
-    provided "com.yandex.cloud:java-sdk-services:$cloudSDKVersion"
+    compile "com.yandex.cloud:java-sdk-services:$cloudSDKVersion"
 }
 
 serverPlugin.version = null

@@ -101,6 +101,7 @@ class YandexCloudClientFactory(cloudRegistrar: CloudRegistrar,
                     it.getParameter(YandexConstants.SECONDARY_DISK_MOUNT_PATH),
                     it.getParameter(YandexConstants.METADATA),
                     it.getParameter(YandexConstants.CLOUD_CONFIG),
+                    it.getParameter(YandexConstants.DNS_RECORDS),
                     (it.getParameter(YandexConstants.GROWING_ID)
                             ?: "").toBoolean(),
                     it.getParameter(YandexConstants.SERVICE_ACCOUNT),
