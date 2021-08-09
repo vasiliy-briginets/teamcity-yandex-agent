@@ -164,6 +164,7 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
 
         val request = CreateInstanceRequest.newBuilder()
                 .putAllLabels(mapOf(
+                        "agent-name" to instance.name,
                         "agent-image-id" to image.id,
                         "agent-image-name" to image.name
                 ))
