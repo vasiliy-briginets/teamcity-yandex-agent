@@ -170,7 +170,7 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
                 ))
                 .setFolderId(instanceFolder)
                 .setName(instance.name)
-                .setHostname(instance.name)
+                .setHostname(details.hostname?.replace("{name}", instance.name) ?: instance.name)
                 .setZoneId(instance.zone)
                 .apply {
                     platformId = "standard-v2"

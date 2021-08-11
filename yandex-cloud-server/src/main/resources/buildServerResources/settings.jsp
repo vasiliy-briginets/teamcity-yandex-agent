@@ -283,6 +283,15 @@
                 </td>
             </tr>
             <tr>
+                <th class="noBorder">Hostname:</th>
+                <td>
+                    <input type="text" name="${cons.hostname}" class="longField ignoreModified"
+                           data-bind="textInput: image().hostname"/>
+                    <span class="smallNote">Hostname to be set on instance. Use "{name}" placeholder to insert actual agent's name (just like in DNS records above). NOTE: You have to specify full hostname here with zone name included.</span>
+                    <span class="error option-error" data-bind="validationMessage: image().hostname"></span>
+                </td>
+            </tr>
+            <tr>
                 <th class="noBorder">Custom properties:</th>
                 <td>
                     <input type="text" name="${cons.customProps}" class="longField ignoreModified"
