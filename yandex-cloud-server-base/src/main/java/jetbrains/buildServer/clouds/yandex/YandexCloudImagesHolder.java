@@ -20,6 +20,7 @@ import jetbrains.buildServer.clouds.base.AbstractCloudImage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

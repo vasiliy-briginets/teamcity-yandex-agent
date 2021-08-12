@@ -58,6 +58,7 @@ DisposableHandle, CoroutineScope {
         return YandexCloudInstance(this, realInstance.name, zone).apply {
             properties = realInstance.properties
             computeId = instanceId
+            folderId = realInstance.properties[YandexConstants.FOLDER_ID] ?: ""
         }
     }
 

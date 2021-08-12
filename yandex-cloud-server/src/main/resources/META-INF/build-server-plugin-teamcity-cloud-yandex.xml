@@ -4,4 +4,5 @@
     <bean class="jetbrains.buildServer.clouds.yandex.YandexCloudImagesHolder"/>
     <bean class="jetbrains.buildServer.clouds.yandex.YandexCloudClientFactory"/>
     <bean class="jetbrains.buildServer.clouds.yandex.web.SettingsController"/>
+    <bean class="jetbrains.buildServer.clouds.yandex.web.CloudImageDetailsPageExtension"/>
 </beans>

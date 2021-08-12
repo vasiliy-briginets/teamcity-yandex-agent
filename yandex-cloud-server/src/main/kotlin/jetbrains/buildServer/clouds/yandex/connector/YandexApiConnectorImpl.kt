@@ -94,7 +94,7 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
     @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun createImageInstance(instance: YandexCloudInstance, userData: CloudInstanceUserData) = coroutineScope {
         val details = instance.image.imageDetails
-        val instanceFolder = if (details.instanceFolder.isNullOrEmpty()) saFolderId else details.instanceFolder
+        val instanceFolder = if (details.instanceFolder.isNullOrEmpty()) saFolderId!! else details.instanceFolder
 
         val image = imageService.get(GetImageRequest.newBuilder()
                 .setImageId(details.sourceImage)
@@ -250,6 +250,7 @@ class YandexApiConnectorImpl(accessKey: String) : YandexApiConnector {
         resp.await()
         val meta = resp.get().metadata.unpack(CreateInstanceMetadata::class.java)
         instance.computeId = meta.instanceId
+        instance.folderId = instanceFolder
         LOG.info("Creating instance for agent ${instance.name}. Instance ID: ${meta.instanceId}, Operation ID: ${resp.get().id}")
 
         Unit

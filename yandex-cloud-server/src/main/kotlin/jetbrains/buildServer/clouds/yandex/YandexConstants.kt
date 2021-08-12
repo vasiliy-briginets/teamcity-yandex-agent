@@ -141,6 +141,7 @@ class YandexConstants {
         const val SERVICE_ACCOUNT = "serviceAccount"
         const val INSTANCE_FOLDER = "instanceFolder"
         const val COMPUTE_ID = "computeID"
+        const val FOLDER_ID = "folderID"
         const val SECURITY_GROUPS = "securityGroups"
         const val CUSTOM_PROPS = "customProps"
     }
