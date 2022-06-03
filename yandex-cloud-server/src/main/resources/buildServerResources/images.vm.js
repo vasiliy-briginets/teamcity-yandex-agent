@@ -73,7 +73,6 @@ function YandexImagesViewModel($, ko, dialog, config) {
         sourceImage: ko.observable().extend({required: true}),
         zone: ko.observable().extend({required: true}),
         platformId: ko.observable(),
-        network: ko.observable().extend({required: true}),
         subnet: ko.observable().extend({required: true}),
         ipv6: ko.observable(false),
         nat: ko.observable(false),
@@ -169,11 +168,9 @@ function YandexImagesViewModel($, ko, dialog, config) {
     // Data from APIs
     self.sourceImages = ko.observableArray([]);
     self.zones = ko.observableArray([]);
-    self.networks = ko.observableArray([]);
     self.subnets = ko.observableArray([]);
     self.diskTypes = ko.observableArray([]);
     self.agentPools = ko.observableArray([]);
-    self.nets = {};
 
     // Hidden fields for serialized values
     self.images_data = ko.observable();
@@ -188,10 +185,6 @@ function YandexImagesViewModel($, ko, dialog, config) {
         }
 
         self.showAccessKey(false);
-    });
-
-    self.image().network.subscribe(function (network) {
-        changeSubnets(network, self.image().subnet());
     });
 
     self.images_data.subscribe(function (data) {
@@ -241,20 +234,10 @@ function YandexImagesViewModel($, ko, dialog, config) {
             self.diskTypes({id: secondaryDiskType, text: secondaryDiskType});
         }
 
-        var network = image.network;
-        if (network && !ko.utils.arrayFirst(self.networks(), function (item) {
-            return item.id === network;
-        })) {
-            self.networks({id: network, text: network});
-        }
-
         model.sourceImage(image.sourceImage);
         model.zone(image.zone);
         model.platformId(image.platformId);
-        model.network(network);
-        var subnet = image.subnet;
-        changeSubnets(network, subnet);
-        model.subnet(subnet);
+        model.subnet(image.subnet);
         model.ipv6(image.ipv6);
         model.nat(image.nat);
         model.hostname(image.hostname);
@@ -301,7 +284,6 @@ function YandexImagesViewModel($, ko, dialog, config) {
             sourceImage: model.sourceImage(),
             zone: model.zone(),
             platformId: model.platformId(),
-            network: model.network(),
             subnet: model.subnet(),
             ipv6: model.ipv6(),
             nat: model.nat(),
@@ -362,7 +344,6 @@ function YandexImagesViewModel($, ko, dialog, config) {
         var url = getBasePath() +
             "resource=permissions" +
             "&resource=zones" +
-            "&resource=networks" +
             "&resource=images" +
             "&resource=subnets" +
             "&resource=diskTypes";
@@ -379,10 +360,8 @@ function YandexImagesViewModel($, ko, dialog, config) {
 
             self.sourceImages(getSourceImages($response));
             self.zones(getZones($response));
-            self.networks(getNetworks($response));
             self.diskTypes(getDiskTypes($response));
             getSubnets($response);
-            changeSubnets(self.image().network())
         }, function (error) {
             self.errorResources("Failed to load data: " + error.message);
             console.log(error);
@@ -390,17 +369,6 @@ function YandexImagesViewModel($, ko, dialog, config) {
             self.loadingResources(false);
         });
     };
-
-    function changeSubnets(network, subnet) {
-        if (!network) return;
-
-        var subnets = self.nets[network];
-        if (subnet && !subnets) {
-            subnets = [{id: subnet, text: subnet}];
-        }
-
-        self.subnets(subnets || []);
-    }
 
     self.loadAccessKey = function (file) {
         if (!self.hasFileReader()) return;
@@ -468,20 +436,9 @@ function YandexImagesViewModel($, ko, dialog, config) {
         }).get();
     }
 
-    function getNetworks($response) {
-        return $response.find("networks:eq(0) network").map(function () {
-            return {id: $(this).attr("id"), text: $(this).text()};
-        }).get();
-    }
-
     function getSubnets($response) {
-        self.nets = {};
         return $response.find("subnets:eq(0) subnet").map(function () {
-            var subnet = {id: $(this).attr("id"), text: $(this).text(), network: $(this).attr("network")};
-            var nets = self.nets[subnet.network] || [];
-            nets.push(subnet);
-            self.nets[subnet.network] = nets;
-            return subnet;
+            return {id: $(this).attr("id"), text: $(this).text(), network: $(this).attr("network")};
         }).get();
     }
 
